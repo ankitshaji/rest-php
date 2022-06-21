@@ -20,7 +20,7 @@ class Post
         $this->conn = $db;
     }
 
-    //getting posts from db
+    //Get from database - all posts
     public function read()
     {
         //query
@@ -46,7 +46,7 @@ class Post
         return $stmt;
     }
 
-    //getting single post from db
+    //Get from database - single post 
     public function readSingle()
     {
         //query
@@ -78,5 +78,34 @@ class Post
         $this->author = $row["title"];
         $this->category_id = $row["category_id"];
         $this->category_name = $row["category_name"];
+    }
+
+    //Post to database - create
+    public function create()
+    {
+        //create query
+        $query = "INSERT INTO " . $this->table . "SET title = : title,body = : body,author = : author,category_id = : category_id";
+        //prepare statment
+        $stmt = $this->conn->prepare($query);
+        //clean data
+        $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->body = htmlspecialchars(strip_tags($this->body));
+        $this->author = htmlspecialchars(strip_tags($this->author));
+        $this->category_id = htmlspecialchars(strip_tags($this->category_id));
+
+        //binding params
+        $stmt->bindParam(":title", $this->title);
+        $stmt->bindParam(":body", $this->body);
+        $stmt->bindParam(":author", $this->author);
+        $stmt->bindParam(":category_id", $this->category_id);
+
+        //execute query
+        if ($stmt->execute()) {
+            return true;
+        }
+        //catch error
+
+        printf("Error %s \n", $stmt->error);
+        return false;
     }
 }
