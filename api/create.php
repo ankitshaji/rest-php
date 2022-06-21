@@ -12,7 +12,6 @@ include_once("../core/initialize.php");
 
 //instantiate post + run query
 $post = new Post($db);
-$result = $post->create();
 
 //get raw post data
 $data = json_decode(file_get_contents("php://input"));
