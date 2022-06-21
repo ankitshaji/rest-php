@@ -1,4 +1,6 @@
 <?php 
+//GET Request - All
+
 //headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");

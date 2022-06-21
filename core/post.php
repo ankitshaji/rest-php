@@ -84,7 +84,7 @@ class Post
     public function create()
     {
         //create query
-        $query = "INSERT INTO " . $this->table . "SET title = : title,body = : body,author = : author,category_id = : category_id";
+        $query = "INSERT INTO `" . $this->table . "` SET title = :title, body = :body, author = :author, category_id = :category_id";
         //prepare statment
         $stmt = $this->conn->prepare($query);
         //clean data
