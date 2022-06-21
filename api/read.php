@@ -8,8 +8,10 @@ header("Content-Type: application/json");
 //include initialize.php - all files
 include_once("../core/initialize.php");
 
-//instantiate post + run query
+//instantiate post +conncet db
 $post = new Post($db);
+
+//execute query - GET
 $result = $post->read();
 
 //get row count
@@ -21,6 +23,7 @@ if($num > 0){
     $post_arr["data"] = array();
     
     //iterate through records
+    //GET request to database
     while($row = $result->fetch(PDO::FETCH_ASSOC))
     {
         //seperate values

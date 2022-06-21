@@ -8,10 +8,13 @@ header("Content-Type: application/json");
 //include initialize.php - all files
 include_once("../core/initialize.php");
 
-//instantiate post + run query
+//instantiate post + conncet db
 $post = new Post($db);
 
+//get id from url
 $post->id = isset($_GET["id"]) ? $_GET["id"] : die();
+
+//execute query - GET
 $post->readSingle();
 
 $post_arr = array(
