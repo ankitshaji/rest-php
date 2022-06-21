@@ -36,7 +36,7 @@ class Post
             " . $this->table . " p
             LEFT JOIN 
                 categories c on p.category_id = c.id
-                ORDERED BY p.created_at DESC";
+                ORDER BY p.created_date DESC";
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
@@ -44,5 +44,39 @@ class Post
         $stmt->execute();
 
         return $stmt;
+    }
+
+    //getting single post from db
+    public function readSingle()
+    {
+        //query
+        $query = "SELECT 
+            c.name as category_name,
+            p.id,
+            p.category_id,
+            p.title,
+            p.body,
+            p.author,
+            p.created_date
+            FROM
+            " . $this->table . " p
+            LEFT JOIN 
+                categories c on p.category_id = c.id
+                WHERE p.id = ? LIMIT 1";
+
+        //prepare statement
+        $stmt = $this->conn->prepare($query);
+        //bind param to ?
+        $stmt->bindParam(1, $this->id);
+        //execute query
+        $stmt->execute();
+
+        //Get Request to database - returns array
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->title =  $row["title"];
+        $this->body = $row["body"];
+        $this->author = $row["title"];
+        $this->category_id = $row["category_id"];
+        $this->category_name = $row["category_name"];
     }
 }
